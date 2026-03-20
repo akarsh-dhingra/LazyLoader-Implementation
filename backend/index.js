@@ -30,7 +30,7 @@ const students = rawStudents.map((s) => ({
     ...s,
     nameLower: String(s.name ?? "").toLowerCase(),
 }));
-// Simple in-memory cache: queryLower -> cached top5 results.
+// Simple in-memory cache: queyLower -> cached top5 results.
 // Keeps repeated searches fast as the dataset grows.
 const queryCache = new Map();
 const MAX_CACHE_ENTRIES = 500;
