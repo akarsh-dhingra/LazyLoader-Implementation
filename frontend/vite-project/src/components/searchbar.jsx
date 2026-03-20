@@ -59,7 +59,6 @@ function SearchBar({ onSelect }) {
         setResults(res.data);
       })
       .catch((err) => {
-        // Ignore expected cancellations.
         if (
           err?.code === "ERR_CANCELED" ||
           err?.name === "CanceledError" ||
