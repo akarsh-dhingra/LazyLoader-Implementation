@@ -11,16 +11,25 @@ const app = express();
 const PORT=process.env.PORT||8080;
 app.use(cors());
 
+
 const studentsPath = path.join(__dirname, "data", "students.json");
 
 // Preload students once at startup to avoid blocking I/O on every request.
 const rawStudents = JSON.parse(fs.readFileSync(studentsPath, "utf8"));
+//  Load all the data that we've at the start so that 
+// you don't  have to make API calls every time you've to fetch now virtually you've an 
+// array of objects.
+
+
+// fs.readFileSync-> It does the following -> read: read the file , file:file operation, Sync:synchronous
+// It opened the file when the backend started read the entire content and converted it into UTF8 format and then it 
+// returned the text.
+
 // Precompute `nameLower` for faster prefix matching.
 const students = rawStudents.map((s) => ({
     ...s,
     nameLower: String(s.name ?? "").toLowerCase(),
 }));
-
 // Simple in-memory cache: queryLower -> cached top5 results.
 // Keeps repeated searches fast as the dataset grows.
 const queryCache = new Map();
@@ -28,7 +37,6 @@ const MAX_CACHE_ENTRIES = 500;
 
 function getCachedResults(queryLower) {
     if (!queryCache.has(queryLower)) return null;
-    // Refresh insertion order (lightweight LRU).
     const value = queryCache.get(queryLower);
     queryCache.delete(queryLower);
     queryCache.set(queryLower, value);
@@ -44,8 +52,6 @@ function setCachedResults(queryLower, results) {
 
 app.get("/api/studentsearch", (req, res) => {
     const q = req.query.q;
-
-    // Robustness: only accept string query params.
     if (typeof q !== "string") return res.json([]);
 
     const query = q.trim();
@@ -56,7 +62,6 @@ app.get("/api/studentsearch", (req, res) => {
     const cached = getCachedResults(queryLower);
     if (cached) return res.json(cached);
 
-    // Prefix-only, case-insensitive match.
     const results = students
         .filter((s) => s.nameLower.startsWith(queryLower))
         .slice(0, 5)
@@ -69,5 +74,4 @@ app.get("/api/studentsearch", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Backend running on port ${PORT}`);
 });
-
 
