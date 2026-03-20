@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-
+const PORT=process.env.PORT||8080;
 app.use(cors());
 
 const studentsPath = path.join(__dirname, "data", "students.json");
@@ -66,8 +66,8 @@ app.get("/api/studentsearch", (req, res) => {
     return res.json(results);
 });
 
-app.listen(8080, () => {
-    console.log("Backend running on port 8080");
+app.listen(PORT, () => {
+    console.log(`Backend running on port ${PORT}`);
 });
 
 

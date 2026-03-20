@@ -49,7 +49,7 @@ function SearchBar({ onSelect }) {
 
     axios
       .get(
-          `https://lazyloader-implementation.onrender.com/api/studentsearch?q=${encodeURIComponent(normalizedQuery)}`,
+        `https://lazyloader-implementation.onrender.com/api/studentsearch?q=${encodeURIComponent(normalizedQuery)}`,
         { signal: controller.signal }
       )
       .then((res) => {
