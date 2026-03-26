@@ -160,8 +160,8 @@ Rules:
 ## 1. Clone the Repository
 
 ```
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
+git clone https://github.com/akarsh-dhingra/LazyLoader-Implementation
+cd LazyLoader-Implementation
 ```
 
 ---
